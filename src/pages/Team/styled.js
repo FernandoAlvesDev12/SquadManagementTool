@@ -29,10 +29,65 @@ export const Form = styled.form`
     color: #dadada;
   }
 
+  select {
+    margin-left: 15px;
+    padding: 8px 40px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
   label {
     transition: 0.3s;
     font-weight: 600;
     display: block;
     margin-top: 30px;
   }
+
+  .searchPlayerLabel {
+    position: relative;
+  }
+  .searchPlayerLabel input {
+    padding-right: 45px;
+  }
+
+  button.btnSearch {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 12px;
+    border-radius: 6px;
+  }
+`;
+
+export const Card = styled.div`
+  border-radius: 6px;
+  margin: 10px 0;
+  background: linear-gradient(to top, #ddd, #fff);
+  padding: 20px;
+  border: 1px dashed #aaa;
+  cursor: move;
+
+  p {
+    font-weight: 600;
+  }
+
+  span {
+    font-weight: 400;
+    color: ${colors.primaryColor};
+  }
+
+  .rowCard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+`;
+
+export const ContainerCards = styled.section`
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 15px;
 `;

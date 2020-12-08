@@ -1,8 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import { Row, Col, Title } from '../../styles/GlobalStyles';
 import { Table, TitleTable } from './styled';
 
 export default function TopTeams() {
+  const { teams } = useSelector((state) => state.teams);
+
   return (
     <>
       <Title>Top 5</Title>
@@ -11,26 +15,12 @@ export default function TopTeams() {
           <TitleTable>Highest avg age</TitleTable>
           <Table>
             <tbody>
-              <tr>
-                <td>Inter Milan</td>
-                <td>31.9</td>
-              </tr>
-              <tr>
-                <td>APOEL Nicosia</td>
-                <td>31.7</td>
-              </tr>
-              <tr>
-                <td>AC Milan</td>
-                <td>31.6</td>
-              </tr>
-              <tr>
-                <td>APOEL Nicosia</td>
-                <td>31.7</td>
-              </tr>
-              <tr>
-                <td>AC Milan</td>
-                <td>31.6</td>
-              </tr>
+              {teams.slice(0, 4).map((team) => (
+                <tr key={team.id}>
+                  <td>{team.teamName}</td>
+                  <td>31.9</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Col>
@@ -38,26 +28,12 @@ export default function TopTeams() {
           <TitleTable>Lowest avg age</TitleTable>
           <Table>
             <tbody>
-              <tr>
-                <td>Inter Milan</td>
-                <td>31.9</td>
-              </tr>
-              <tr>
-                <td>APOEL Nicosia</td>
-                <td>31.7</td>
-              </tr>
-              <tr>
-                <td>AC Milan</td>
-                <td>31.6</td>
-              </tr>
-              <tr>
-                <td>APOEL Nicosia</td>
-                <td>31.7</td>
-              </tr>
-              <tr>
-                <td>AC Milan</td>
-                <td>31.6</td>
-              </tr>
+              {teams.slice(0, 4).map((team) => (
+                <tr key={team.id}>
+                  <td>{team.teamName}</td>
+                  <td>31.9</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Col>

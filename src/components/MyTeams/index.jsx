@@ -30,7 +30,7 @@ export default function MyTeams() {
             id,
           })
         );
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire('Deleted!', 'Your team has been deleted.', 'success');
       }
     });
   }
@@ -58,7 +58,7 @@ export default function MyTeams() {
         </thead>
         <tbody>
           {teams.map((team) => (
-            <tr>
+            <tr key="team.id">
               <td>{team.teamName}</td>
               <td>{team.description}</td>
               <td>

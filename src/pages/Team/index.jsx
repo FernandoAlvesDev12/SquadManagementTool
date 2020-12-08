@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
+import { FaSearch } from 'react-icons/fa';
 
+import axios from '../../services/axios';
 import InitialsIcon from '../../components/InitialsIcon';
 import * as actions from '../../store/modules/teams/actions';
 
-import { Form } from './styled';
+import { Form, Card, ContainerCards } from './styled';
 import { SoccerField } from '../../styles/SoccerField';
 import {
   Container,
@@ -39,6 +41,7 @@ const teamTypeOptions = ['Real', 'Fantasy'];
 export default function Team({ match, history }) {
   const dispatch = useDispatch();
   const { teams } = useSelector((state) => state.teams);
+  const [searchPlayerList, setSearchPlayerList] = useState([]);
 
   const id = get(match, 'params.id', '');
   const [teamName, setTeamName] = useState('');
@@ -72,6 +75,25 @@ export default function Team({ match, history }) {
 
     getData();
   }, [id, history]);
+
+  async function getPlayersData() {
+    const response = await axios.get(`/players/search/${searchPlayer}`);
+    toast.info(
+      `${response.data.api.players.length} players found by name ${searchPlayer}`
+    );
+
+    setSearchPlayerList(response.data.api.players);
+
+    // setSearchPlayerList([
+    //   {
+    //     id: 5,
+    //     player_name: 'Fernando Luis Alves',
+    //     age: 19,
+    //     nationality: 'Brazil',
+    //     position: 'Ataque',
+    //   },
+    // ]);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -256,6 +278,7 @@ export default function Team({ match, history }) {
               </Col>
               <Col mobile="100" default="30">
                 <label
+                  className="searchPlayerLabel"
                   htmlFor={searchPlayer}
                   style={{ color: focusedSearchPlayer ? '#C50341' : '' }}
                 >
@@ -269,7 +292,36 @@ export default function Team({ match, history }) {
                     onBlur={() => setFocusedSearchPlayer(false)}
                     placeholder="Insert name player"
                   />
+                  <button
+                    type="button"
+                    className="btnSearch"
+                    onClick={() => getPlayersData()}
+                  >
+                    <FaSearch size="14" />
+                  </button>
                 </label>
+                <ContainerCards>
+                  {searchPlayerList.map((player) => (
+                    <Card key={player.id}>
+                      <div className="rowCard">
+                        <p>
+                          Name: <span>{player.player_name}</span>
+                        </p>
+                        <p>
+                          Age: <span>{player.age}</span>
+                        </p>
+                      </div>
+                      <div className="rowCard">
+                        <p>
+                          Nacionality: <span>{player.nationality}</span>
+                        </p>
+                        <p>
+                          Position: <span>{player.position}</span>
+                        </p>
+                      </div>
+                    </Card>
+                  ))}
+                </ContainerCards>
               </Col>
             </Row>
           </Form>

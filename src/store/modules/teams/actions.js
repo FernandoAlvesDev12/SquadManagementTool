@@ -13,3 +13,10 @@ export function deleteTeamRequest(payload) {
     payload,
   };
 }
+
+// export function searchPlayersRequest(payload) {
+//   return {
+//     type: types.SEARCH_PLAYER_REQUEST,
+//     payload,
+//   };
+// }

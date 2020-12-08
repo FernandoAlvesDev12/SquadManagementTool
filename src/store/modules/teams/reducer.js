@@ -1,4 +1,5 @@
 import * as types from '../types';
+// import axios from '../../../services/axios';
 
 const initialState = {
   teams: [
@@ -12,7 +13,28 @@ const initialState = {
       formation: '4 - 3 - 3',
     },
   ],
+  searchedPlayers: [
+    {
+      player_id: 90421,
+      player_name: 'Giuseppe Messina',
+      firstname: 'Giuseppe',
+      lastname: 'Messina',
+      number: null,
+      position: 'Goalkeeper',
+      age: 26,
+      birth_date: '12/02/1993',
+      birth_place: 'Enna',
+      birth_country: 'Italy',
+      nationality: 'Italy',
+      height: '186 cm',
+      weight: '71 kg',
+    },
+  ],
 };
+
+// async function getData(action) {
+//   return axios.get(`/players/search/${action.payload.searchPlayer}`);
+// }
 
 function VerificarProximoID(teams) {
   return (
@@ -57,6 +79,16 @@ export default function (state = initialState, action) {
 
       return newState;
     }
+
+    // case types.SEARCH_PLAYER_REQUEST: {
+    //   const newState = { ...state };
+
+    //   const response = getData(action);
+
+    //   newState.searchedPlayers = response.data.api.players;
+
+    //   return newState;
+    // }
 
     default: {
       return state;
