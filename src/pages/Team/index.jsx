@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 import { FaSearch } from 'react-icons/fa';
+import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
 
 import axios from '../../services/axios';
 import InitialsIcon from '../../components/InitialsIcon';
@@ -23,19 +24,19 @@ import {
 
 import { formationsOptions } from '../../config/squadFomation';
 
-const squadPlayers = [
-  'De Gea',
-  'Wan Bissaka',
-  'Lindelof',
-  'Maguire',
-  'Alex Telles',
-  'Fred',
-  'McTominay',
-  'Bruno Fernandes',
-  '',
-  'Rashford',
-  'Cavani',
-];
+// const squadPlayers = [
+//   'De Gea',
+//   'Wan Bissaka',
+//   'Lindelof',
+//   'Maguire',
+//   'Alex Telles',
+//   'Fred',
+//   'McTominay',
+//   'Bruno Fernandes',
+//   '',
+//   'Rashford',
+//   'Cavani',
+// ];
 const teamTypeOptions = ['Real', 'Fantasy'];
 
 export default function Team({ match, history }) {
@@ -56,6 +57,19 @@ export default function Team({ match, history }) {
   const [focusedTags, setFocusedTags] = useState(false);
   const [focusedSearchPlayer, setFocusedSearchPlayer] = useState(false);
   const [formation, setFormation] = useState('5 - 4 - 1');
+  const [squadPlayers, setSquadPlayers] = useState([
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+    // { player_name: '' },
+  ]);
 
   useEffect(() => {
     if (!id) return;
@@ -71,14 +85,16 @@ export default function Team({ match, history }) {
       setTeamType(data.teamType);
       setTags(data.tags);
       setFormation(data.formation);
+      setSquadPlayers(data.squadPlayers);
     }
 
     getData();
   }, [id, history]);
 
   async function getPlayersData() {
+    toast.info(`Looking for players named ${searchPlayer}`);
     const response = await axios.get(`/players/search/${searchPlayer}`);
-    toast.info(
+    toast.success(
       `${response.data.api.players.length} players found by name ${searchPlayer}`
     );
 
@@ -145,6 +161,13 @@ export default function Team({ match, history }) {
     }).then(() => {
       history.push('/');
     });
+  }
+
+  function handleDrop(e) {
+    const newSquadPlayer = squadPlayers;
+    newSquadPlayer[e.target.id] = e.dragData;
+    setSquadPlayers(newSquadPlayer);
+    e.containerElem.style.visibility = 'hidden';
   }
 
   return (
@@ -261,15 +284,27 @@ export default function Team({ match, history }) {
                   {formationsOptions
                     .filter((f) => f.formation === formation)[0]
                     .players.map((player, index) => (
-                      <InitialsIcon
-                        key={player.i}
-                        name={squadPlayers[index]}
-                        size={45}
-                        fontSize={20}
-                        squad
-                        x={player.x}
-                        y={player.y}
-                      />
+                      <DropTarget
+                        targetKey="player"
+                        onHit={handleDrop}
+                        dropData={player}
+                      >
+                        <InitialsIcon
+                          id={String(index)}
+                          key={player.i}
+                          // name={squadPlayers[index].player_name}
+                          name={
+                            get(squadPlayers[index], 'player_name', null)
+                              ? squadPlayers[index].player_name
+                              : ''
+                          }
+                          size={45}
+                          fontSize={20}
+                          squad
+                          x={player.x}
+                          y={player.y}
+                        />
+                      </DropTarget>
                     ))}
                 </SoccerField>
                 <button type="submit" className="block">
@@ -302,24 +337,26 @@ export default function Team({ match, history }) {
                 </label>
                 <ContainerCards>
                   {searchPlayerList.map((player) => (
-                    <Card key={player.id}>
-                      <div className="rowCard">
-                        <p>
-                          Name: <span>{player.player_name}</span>
-                        </p>
-                        <p>
-                          Age: <span>{player.age}</span>
-                        </p>
-                      </div>
-                      <div className="rowCard">
-                        <p>
-                          Nacionality: <span>{player.nationality}</span>
-                        </p>
-                        <p>
-                          Position: <span>{player.position}</span>
-                        </p>
-                      </div>
-                    </Card>
+                    <DragDropContainer targetKey="player" dragData={player}>
+                      <Card key={player.id}>
+                        <div className="rowCard">
+                          <p>
+                            Name: <span>{player.player_name}</span>
+                          </p>
+                          <p>
+                            Age: <span>{player.age}</span>
+                          </p>
+                        </div>
+                        <div className="rowCard">
+                          <p>
+                            Nacionality: <span>{player.nationality}</span>
+                          </p>
+                          <p>
+                            Position: <span>{player.position}</span>
+                          </p>
+                        </div>
+                      </Card>
+                    </DragDropContainer>
                   ))}
                 </ContainerCards>
               </Col>

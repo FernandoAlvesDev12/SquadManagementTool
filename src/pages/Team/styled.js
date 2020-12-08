@@ -90,4 +90,9 @@ export const ContainerCards = styled.section`
   overflow-y: auto;
   padding-right: 10px;
   margin-top: 15px;
+
+  .ddcontainersource,
+  .ddcontainer {
+    width: 100%;
+  }
 `;

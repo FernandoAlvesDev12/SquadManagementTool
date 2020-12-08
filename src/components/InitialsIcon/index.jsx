@@ -20,12 +20,13 @@ function ExtractInitials(name) {
 }
 
 export default function InitialsIcon(props) {
-  const { name, size, fontSize, effect, squad, x, y } = props;
+  const { name, size, fontSize, effect, squad, x, y, id } = props;
   const initiais = ExtractInitials(name);
 
   if (initiais)
     return (
       <Icon
+        id={id}
         size={size}
         fontSize={fontSize}
         effect={effect}
@@ -40,6 +41,7 @@ export default function InitialsIcon(props) {
   if (squad)
     return (
       <Icon
+        id={id}
         size={size}
         fontSize={fontSize}
         effect={effect}
@@ -63,6 +65,7 @@ InitialsIcon.defaultProps = {
   squad: false,
   x: 0,
   y: 0,
+  id: '',
 };
 
 InitialsIcon.propTypes = {
@@ -73,4 +76,5 @@ InitialsIcon.propTypes = {
   squad: PropTypes.bool,
   x: PropTypes.number,
   y: PropTypes.number,
+  id: PropTypes.string,
 };
