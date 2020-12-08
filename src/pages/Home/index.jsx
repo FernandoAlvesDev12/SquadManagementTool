@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useDispatch } from 'react-redux';
 
 import { Container, Row, Col } from '../../styles/GlobalStyles';
 import { SoccerField } from '../../styles/SoccerField';

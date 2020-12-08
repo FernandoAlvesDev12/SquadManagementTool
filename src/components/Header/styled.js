@@ -8,6 +8,8 @@ export const Nav = styled.nav`
     ${colors.secundaryColor}
   );
   padding: 5px 40px;
+  position: sticky;
+  top: 0px;
   display: flex;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

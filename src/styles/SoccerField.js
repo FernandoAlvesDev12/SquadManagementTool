@@ -8,7 +8,7 @@ export const SoccerField = styled.div`
     ${colors.secundaryDarkColor}
   );
   width: 100%;
-  height: 700px;
+  height: 600px;
   border-radius: 12px;
   margin-top: 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

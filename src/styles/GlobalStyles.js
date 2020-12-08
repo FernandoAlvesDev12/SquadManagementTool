@@ -51,6 +51,13 @@ export default createGlobalStyle`
     font-size: 30px;
   }
 
+  button.block {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
   a {
     text-decoration: none;
     color: ${colors.primaryColor};
@@ -114,4 +121,11 @@ export const Title = styled.h1`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const Subtitle = styled.h3`
+  color: #8f8f8f;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 35px 0 30px;
 `;

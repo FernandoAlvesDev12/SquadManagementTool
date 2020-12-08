@@ -1,11 +1,40 @@
 import React from 'react';
-import { FaTrash, FaShareAlt, FaPen, FaSort } from 'react-icons/fa';
+import { FaTrash, FaPen, FaSort } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
+import * as actions from '../../store/modules/teams/actions';
 import { Table } from './styled';
 import { Title } from '../../styles/GlobalStyles';
+import * as colors from '../../config/colors';
 
 export default function MyTeams() {
+  const { teams } = useSelector((state) => state.teams);
+  const dispatch = useDispatch();
+
+  async function handleDelete(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text:
+        "Do you really want to delete your team? You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: colors.errorColor,
+      cancelButtonColor: '#aaa',
+      confirmButtonText: 'Yes, delete team!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(
+          actions.deleteTeamRequest({
+            id,
+          })
+        );
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+      }
+    });
+  }
+
   return (
     <>
       <Title>
@@ -28,51 +57,22 @@ export default function MyTeams() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Real Madrid</td>
-            <td>Squad 2010-2011 Real</td>
-            <td>
-              <FaTrash size={12} title="Delete" />
-              <FaShareAlt size={12} title="Share" />
-              <FaPen size={12} title="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Real Madrid</td>
-            <td>Galaticos</td>
-            <td>
-              <FaTrash size={12} />
-              <FaShareAlt size={12} />
-              <FaPen size={12} />
-            </td>
-          </tr>
-          <tr>
-            <td>Real Madrid</td>
-            <td>Galaticos</td>
-            <td>
-              <FaTrash size={12} />
-              <FaShareAlt size={12} />
-              <FaPen size={12} />
-            </td>
-          </tr>
-          <tr>
-            <td>Real Madrid</td>
-            <td>Galaticos</td>
-            <td>
-              <FaTrash size={12} />
-              <FaShareAlt size={12} />
-              <FaPen size={12} />
-            </td>
-          </tr>
-          <tr>
-            <td>Real Madrid</td>
-            <td>Galaticos</td>
-            <td>
-              <FaTrash size={12} />
-              <FaShareAlt size={12} />
-              <FaPen size={12} />
-            </td>
-          </tr>
+          {teams.map((team) => (
+            <tr>
+              <td>{team.teamName}</td>
+              <td>{team.description}</td>
+              <td>
+                <FaTrash
+                  size={12}
+                  title="Delete"
+                  onClick={() => handleDelete(team.id)}
+                />
+                <Link to={`team/${team.id}/edit`}>
+                  <FaPen size={12} title="Edit" />
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </>

@@ -13,6 +13,8 @@ export const Icon = styled.span`
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  left: calc(${(props) => props.x}% - (${(props) => props.size}px / 2));
+  top: calc(${(props) => props.y}% - (${(props) => props.size}px / 2));
 
   ${({ effect }) =>
     effect &&
@@ -36,4 +38,27 @@ export const Icon = styled.span`
     `
       border: 3px solid #A20862;
   `}
+
+${({ squad }) =>
+  squad &&
+  `
+  position: absolute;
+  cursor: pointer;
+  `}
+
+${({ withoutName, squad }) =>
+  withoutName &&
+  squad &&
+  `
+  opacity: 0.7;
+  ::after {
+      position: absolute;
+      content: "";
+      width: 55px;
+      height: 55px;
+      border: 2px dashed #AE83C7;
+      border-radius: 50%;
+  `}
+
+
 `;

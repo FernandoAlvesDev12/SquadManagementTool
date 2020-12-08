@@ -7,7 +7,7 @@ export const defaultColorLight = '#f7f3f7';
 export const defaultColor = '#eee';
 export const defaultColorDark = '#333333';
 
-export const successColor = '#0197F6';
-export const infoColor = '#0197F6';
-export const errorColor = '#F2AF29';
-export const warningColor = '#F2AF29';
+export const successColor = '#27ae60';
+export const infoColor = '#3498db';
+export const errorColor = '#e74c3c';
+export const warningColor = '#f39c12';

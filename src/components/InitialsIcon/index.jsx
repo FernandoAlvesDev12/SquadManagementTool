@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUser, FaPlus } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 
 import { Icon } from './styled';
@@ -20,21 +20,49 @@ function ExtractInitials(name) {
 }
 
 export default function InitialsIcon(props) {
-  const { name, size, fontSize, effect } = props;
+  const { name, size, fontSize, effect, squad, x, y } = props;
   const initiais = ExtractInitials(name);
 
   if (initiais)
     return (
-      <Icon size={size} fontSize={fontSize} effect={effect}>
+      <Icon
+        size={size}
+        fontSize={fontSize}
+        effect={effect}
+        squad={squad}
+        x={x}
+        y={y}
+      >
         {initiais}
       </Icon>
     );
 
-  return <FaUserCircle size={size} />;
+  if (squad)
+    return (
+      <Icon
+        size={size}
+        fontSize={fontSize}
+        effect={effect}
+        squad={squad}
+        x={x}
+        y={y}
+        withoutName
+      >
+        <FaPlus />
+      </Icon>
+    );
+  return (
+    <Icon size={size} fontSize={fontSize} effect={effect}>
+      <FaUser />
+    </Icon>
+  );
 }
 
 InitialsIcon.defaultProps = {
   effect: '',
+  squad: false,
+  x: 0,
+  y: 0,
 };
 
 InitialsIcon.propTypes = {
@@ -42,4 +70,7 @@ InitialsIcon.propTypes = {
   size: PropTypes.number.isRequired,
   fontSize: PropTypes.number.isRequired,
   effect: PropTypes.string,
+  squad: PropTypes.bool,
+  x: PropTypes.number,
+  y: PropTypes.number,
 };
